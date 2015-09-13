@@ -2,63 +2,56 @@ package se.bitbybit.jspecs.builders;
 
 import org.junit.Test;
 import se.bitbybit.jspecs.KeyExampleExecuter;
-import se.bitbybit.jspecs.stepdefinition.StepDefinitionRegexpParser;
+import se.bitbybit.jspecs.stepdefinition.ParserCombiner;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Pattern;
+import java.util.Collection;
+import java.util.HashSet;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 
 public class ExecutableKeyExampleTest {
 
 
     @Test
-    public void testsd(){
-        Pattern p1 = Pattern.compile("ab" +"c");
-        Pattern p2 = Pattern.compile("abc");
-
-        assertEquals(p1.pattern(), p2.pattern());
-    }
-
-    @Test
-    public void shouldCreateCorrectMapForSingleSearchPatternWithSingleBinding(){
-
+    public void should_get_empty_map_on_run_if_no_searchPatterns_are_set(){
         FakeKeyExampleExecuter fakeExecuter = new FakeKeyExampleExecuter();
 
         ExecutableKeyExample
-                .forKeyExample("should find plopp as a single string")
-
-                .addSearchPattern("{theString} as a single string")
-                .binding("{theString}").toStringIn(theString -> {})
+                .forKeyExample("Bla bla bla")
                 .run(fakeExecuter);
 
-        assertThat(fakeExecuter.searchString2stepDefParser.size(), is(1));
-
-        Set<Pattern> keys = fakeExecuter.searchString2stepDefParser.keySet();
-        Pattern actualP1 = keys.iterator().next();
-        List<StepDefinitionRegexpParser> actualValuesForP1 = fakeExecuter.searchString2stepDefParser.get(actualP1);
-
-        assertThat(actualP1.pattern(), is("(.*) as a single string"));
-        assertThat(actualValuesForP1, hasSize(1));
-
-        StepDefinitionRegexpParser actualV1forP1 = actualValuesForP1.get(0);
-        assertThat(actualV1forP1.patternAsRegexp().pattern(), is(actualP1.pattern()));
+        assertThat(fakeExecuter.parserCombiners.size(), is(0));
     }
+
+    @Test
+    public void should_get_parserCombiners_and_keyExampleText_on_run(){
+
+        FakeKeyExampleExecuter fakeExecuter = new FakeKeyExampleExecuter();
+        Collection<ParserCombiner> expectedParserCombiners = new HashSet<>();
+
+        SearchPatterns mockedSearchPatterns = given(mock(SearchPatterns.class).getParserCombiners()).willReturn(expectedParserCombiners).getMock();
+
+        ExecutableKeyExample
+                .forKeyExample("should find plopp as a single string")
+                .withSearchPatterns(mockedSearchPatterns)
+                .run(fakeExecuter);
+
+        assertThat(fakeExecuter.parserCombiners, is(expectedParserCombiners));
+    }
+
 
 
     public class FakeKeyExampleExecuter implements KeyExampleExecuter{
 
-        public Map<Pattern, List<StepDefinitionRegexpParser>> searchString2stepDefParser;
+        public Collection<ParserCombiner> parserCombiners;
 
         @Override
-        public void execute(Map<Pattern, List<StepDefinitionRegexpParser>> searchString2stepDefParser) {
-            this.searchString2stepDefParser = searchString2stepDefParser;
+        public void execute(String keyExampleText, Collection<ParserCombiner> parserCombiners) {
+            this.parserCombiners = parserCombiners;
         }
     }
 }

@@ -1,11 +1,9 @@
 package se.bitbybit.jspecs;
 
-import se.bitbybit.jspecs.stepdefinition.StepDefinitionRegexpParser;
+import se.bitbybit.jspecs.stepdefinition.ParserCombiner;
 
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
+import java.util.Collection;
 
 public interface KeyExampleExecuter {
-    void execute(Map<Pattern, List<StepDefinitionRegexpParser>> searchString2stepDefParser);
+    void execute(String keyExampleText, Collection<ParserCombiner> parserCombiners);
 }
