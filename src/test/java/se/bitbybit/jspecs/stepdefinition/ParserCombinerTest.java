@@ -12,11 +12,6 @@ import static org.junit.Assert.fail;
 public class ParserCombinerTest {
 
     @Test
-    public void shouldThrowIfNotAllParsersShareTheSameOriginalPattern(){
-        throw new NoSuchMethodError();
-    }
-
-    @Test
     public void shouldCombineTwoParsers(){
 
         String sharedOriginalPattern = "The strings {string1} and {string2}";
@@ -25,21 +20,30 @@ public class ParserCombinerTest {
 
         List<StepDefinitionParser> combinedParsers = new ParserCombiner().add(parser1).add(parser2).getParsers();
 
+        String regExpPatternP1 = extractRegExpPatter(combinedParsers.get(0));
+        String regExpPatternP2 = extractRegExpPatter(combinedParsers.get(1));
+
         assertThat(combinedParsers, hasSize(2));
         for(StepDefinitionParser parser : combinedParsers){
-            assertThat("Mismatch for parser with placeholder " + parser.getPlaceholder(),
-                    parser.getStringPattern().getRegexpPattern(), is("The strings (.*) and (.*)"));
 
-            switch(parser.getPlaceholder()){
-                case "{string1}" : assertThat(parser.getStringPattern().getOriginalPattern(), is("The strings {string1} and (.*)")); break;
-                case "{string2}" : assertThat(parser.getStringPattern().getOriginalPattern(), is("The strings (.*) and {string2}")); break;
-                default: fail("Unknown placeholder: " + parser.getPlaceholder());
+            switch(parser.getPlaceholder()) {
+                case "{string1}":
+                    assertThat(parser.getStringPattern().getRegexpPatternWithGroupName(), is("The strings " + regExpPatternP1 + " and (\\w+)"));
+                    break;
+
+                case "{string2}":
+                    assertThat(parser.getStringPattern().getRegexpPatternWithGroupName(), is("The strings (\\w+) and " + regExpPatternP2));
+                    break;
+
+                default:
+                    fail("Unknown placeholder: " + parser.getPlaceholder());
             }
+
         }
     }
 
     @Test
-    public void shouldCombineThreeParsers(){
+    public void shouldCombineThreeParsers() {
 
         String sharedOriginalPattern = "The strings {string1}, {string2} and {string3}";
         StepDefinitionParserForString parser1 = new StepDefinitionParserForString(sharedOriginalPattern, "{string1}", null);
@@ -49,16 +53,37 @@ public class ParserCombinerTest {
         List<StepDefinitionParser> combinedParsers = new ParserCombiner().add(parser1).add(parser2).add(parser3).getParsers();
 
         assertThat(combinedParsers, hasSize(3));
-        for(StepDefinitionParser parser : combinedParsers){
-            assertThat("Mismatch for parser with placeholder " + parser.getPlaceholder(),
-                    parser.getStringPattern().getRegexpPattern(), is("The strings (.*), (.*) and (.*)"));
+        String regExpPatternP1 = extractRegExpPatter(combinedParsers.get(0));
+        String regExpPatternP2 = extractRegExpPatter(combinedParsers.get(1));
+        String regExpPatternP3 = extractRegExpPatter(combinedParsers.get(2));
 
-            switch(parser.getPlaceholder()){
-                case "{string1}" : assertThat(parser.getStringPattern().getOriginalPattern(), is("The strings {string1}, (.*) and (.*)")); break;
-                case "{string2}" : assertThat(parser.getStringPattern().getOriginalPattern(), is("The strings (.*), {string2} and (.*)")); break;
-                case "{string3}" : assertThat(parser.getStringPattern().getOriginalPattern(), is("The strings (.*), (.*) and {string3}")); break;
-                default: fail("Unknown placeholder: " + parser.getPlaceholder());
+
+        for (StepDefinitionParser parser : combinedParsers) {
+            switch (parser.getPlaceholder()) {
+                case "{string1}":
+                    assertThat(parser.getStringPattern().getRegexpPatternWithGroupName(), is("The strings " + regExpPatternP1 + ", (\\w+) and (\\w+)"));
+                    break;
+
+                case "{string2}":
+                    assertThat(parser.getStringPattern().getRegexpPatternWithGroupName(), is("The strings (\\w+), " + regExpPatternP2 + " and (\\w+)"));
+                    break;
+
+                case "{string3}":
+                    assertThat(parser.getStringPattern().getRegexpPatternWithGroupName(), is("The strings (\\w+), (\\w+) and " + regExpPatternP3));
+                    break;
+
+                default:
+                    fail("Unknown placeholder: " + parser.getPlaceholder());
             }
         }
+    }
+
+    private String extractRegExpPatter(StepDefinitionParser parser) {
+        String regexp = parser.getStringPattern().getRegexpPatternWithGroupName();
+        String prefix = regexp.substring(0, regexp.indexOf("<") - 2);
+        String suffix = regexp.substring(regexp.indexOf(">") + 5);
+
+        String result = regexp.replace(prefix, "").replace(suffix, "");
+        return result;
     }
 }

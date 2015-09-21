@@ -15,13 +15,13 @@ public class ParserCombiner {
             newStepDefParsers.add(newParser);
         } else {
             for (StepDefinitionParser p : stepDefParsers) {
-                String oldPatternWithNewRegexp = newParser.cloneWith(p.getStringPattern().getOriginalPattern()).getStringPattern().getRegexpPattern();
+                String oldPatternWithNewRegexp = newParser.cloneWith(p.getStringPattern().getOriginalPattern()).getStringPattern().getRegexpPatternWithoutGroupName();
                 newStepDefParsers.add(p.cloneWith(oldPatternWithNewRegexp));
             }
 
             String newParserRegExpPattern = newParser.getStringPattern().getOriginalPattern();
             for (StepDefinitionParser p : stepDefParsers) {
-                newParserRegExpPattern = p.cloneWith(newParserRegExpPattern).getStringPattern().getRegexpPattern();
+                newParserRegExpPattern = p.cloneWith(newParserRegExpPattern).getStringPattern().getRegexpPatternWithoutGroupName();
             }
             newStepDefParsers.add(newParser.cloneWith(newParserRegExpPattern));
         }

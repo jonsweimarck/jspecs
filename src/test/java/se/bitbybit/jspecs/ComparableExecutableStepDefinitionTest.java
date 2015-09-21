@@ -1,8 +1,8 @@
 package se.bitbybit.jspecs;
 
 import org.junit.Test;
+import se.bitbybit.jspecs.stepdefinition.ComparableExecutableStepDefinition;
 import se.bitbybit.jspecs.stepdefinition.ExecutableStepDefinition;
-import se.bitbybit.jspecs.stepdefinition.OrderedExecutableStepDefinition;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,16 +13,16 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class OrderedExecutableStepDefinitionTest {
+public class ComparableExecutableStepDefinitionTest {
 
 
     @Test
     public void shouldBeSortedOnIndex(){
-        OrderedExecutableStepDefinition oesd1 = new OrderedExecutableStepDefinition(1, null);
-        OrderedExecutableStepDefinition oesd2 = new OrderedExecutableStepDefinition(2, null);
-        OrderedExecutableStepDefinition oesd3 = new OrderedExecutableStepDefinition(3, null);
+        ComparableExecutableStepDefinition oesd1 = new ComparableExecutableStepDefinition(1, null);
+        ComparableExecutableStepDefinition oesd2 = new ComparableExecutableStepDefinition(2, null);
+        ComparableExecutableStepDefinition oesd3 = new ComparableExecutableStepDefinition(3, null);
 
-        List<OrderedExecutableStepDefinition> list = new ArrayList<>();
+        List<ComparableExecutableStepDefinition> list = new ArrayList<>();
 
         list.add(oesd2);
         list.add(oesd3);
@@ -40,7 +40,7 @@ public class OrderedExecutableStepDefinitionTest {
 
         ExecutableStepDefinition esd = mock(ExecutableStepDefinition.class);
 
-        OrderedExecutableStepDefinition oesd = new OrderedExecutableStepDefinition(1, esd);
+        ComparableExecutableStepDefinition oesd = new ComparableExecutableStepDefinition(1, esd);
         oesd.execute();
 
         verify(esd).execute();

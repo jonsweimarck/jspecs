@@ -42,7 +42,7 @@ public class StepDefinitionParserForStringList implements StepDefinitionParser {
     @Override
     public PatternContainer getStringPattern() {
         String replaced = pattern.replace(placeholder, regExpForList);
-        return new PatternContainer(pattern, replaced);
+        return new PatternContainer(pattern, replaced, "");
     }
 
     @Override
@@ -52,6 +52,11 @@ public class StepDefinitionParserForStringList implements StepDefinitionParser {
 
     @Override
     public StepDefinitionParser cloneWith(String newPattern) {
+        throw new NoSuchMethodError();
+    }
+
+    @Override
+    public List<ComparableExecutableStepDefinition> createExecutablesFrom(String keyExampleText) {
         throw new NoSuchMethodError();
     }
 }

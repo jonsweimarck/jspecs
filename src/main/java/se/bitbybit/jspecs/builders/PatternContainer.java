@@ -5,21 +5,25 @@ import java.util.regex.Pattern;
 public class PatternContainer {
 
     private String originalPattern;
-    private String regexpPattern;
+    private String regexpPatternWithGroupName;
+    private String regexpPatternWithoutGroupName;
 
-    public PatternContainer(String originalPattern, String regexpPattern) {
+    public PatternContainer(String originalPattern, String regexpPatternWithGroupName, String regexpPatternWithoutGroupName) {
         this.originalPattern = originalPattern;
-        this.regexpPattern = regexpPattern;
+        this.regexpPatternWithGroupName = regexpPatternWithGroupName;
+        this.regexpPatternWithoutGroupName = regexpPatternWithoutGroupName;
     }
 
     public String getOriginalPattern() {
         return originalPattern;
     }
 
-    public String getRegexpPattern(){return regexpPattern;}
+    public String getRegexpPatternWithGroupName(){return regexpPatternWithGroupName;}
+
+    public String getRegexpPatternWithoutGroupName(){return regexpPatternWithoutGroupName;}
 
     public Pattern getCompiledRegexpPattern() {
-        return Pattern.compile(regexpPattern);
+        return Pattern.compile(regexpPatternWithGroupName);
     }
 
     @Override
@@ -30,14 +34,14 @@ public class PatternContainer {
         PatternContainer that = (PatternContainer) o;
 
         if (!originalPattern.equals(that.originalPattern)) return false;
-        return regexpPattern.equals(that.regexpPattern);
+        return regexpPatternWithGroupName.equals(that.regexpPatternWithGroupName);
 
     }
 
     @Override
     public int hashCode() {
         int result = originalPattern.hashCode();
-        result = 31 * result + regexpPattern.hashCode();
+        result = 31 * result + regexpPatternWithGroupName.hashCode();
         return result;
     }
 }

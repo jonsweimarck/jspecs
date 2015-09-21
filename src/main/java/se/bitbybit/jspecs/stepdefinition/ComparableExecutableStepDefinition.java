@@ -2,14 +2,14 @@ package se.bitbybit.jspecs.stepdefinition;
 
 import se.bitbybit.jspecs.RegExpMatchExtractor;
 
-public class OrderedExecutableStepDefinition implements Comparable<OrderedExecutableStepDefinition>{
+public class ComparableExecutableStepDefinition implements Comparable<ComparableExecutableStepDefinition>{
 
     private RegExpMatchExtractor regExpMatchExtractor;
 
     private Integer order;
     private ExecutableStepDefinition executableStepDefinition;
 
-    public OrderedExecutableStepDefinition(int scenarioTextStart, ExecutableStepDefinition executableStepDefinition) {
+    public ComparableExecutableStepDefinition(int scenarioTextStart, ExecutableStepDefinition executableStepDefinition) {
         this.regExpMatchExtractor = new RegExpMatchExtractor();
         this.order = scenarioTextStart;
         this.executableStepDefinition = executableStepDefinition;
@@ -20,7 +20,7 @@ public class OrderedExecutableStepDefinition implements Comparable<OrderedExecut
     }
 
     @Override
-    public int compareTo(OrderedExecutableStepDefinition orderedExecutableStepDefinition) {
-        return this.order.compareTo(orderedExecutableStepDefinition.order);
+    public int compareTo(ComparableExecutableStepDefinition comparableExecutableStepDefinition) {
+        return this.order.compareTo(comparableExecutableStepDefinition.order);
     }
 }

@@ -1,6 +1,6 @@
 package se.bitbybit.jspecs;
 
-import se.bitbybit.jspecs.stepdefinition.OrderedExecutableStepDefinition;
+import se.bitbybit.jspecs.stepdefinition.ComparableExecutableStepDefinition;
 import se.bitbybit.jspecs.stepdefinition.ParserCombiner;
 
 import java.util.Collection;
@@ -16,9 +16,9 @@ public class DefaultKeyExampleExecuter implements KeyExampleExecuter {
 
     @Override
     public void execute(String keyExample, Collection<ParserCombiner> parserCombiners) {
-        List<OrderedExecutableStepDefinition> sorted = executableStepDefinitionSorter.sortOnMatches(parserCombiners, keyExample);
+        List<ComparableExecutableStepDefinition> sorted = executableStepDefinitionSorter.sortOnMatches(parserCombiners, keyExample);
 
-        for(OrderedExecutableStepDefinition oesd : sorted){
+        for(ComparableExecutableStepDefinition oesd : sorted){
             oesd.execute();
         }
     }

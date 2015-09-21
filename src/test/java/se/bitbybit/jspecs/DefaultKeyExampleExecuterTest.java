@@ -57,7 +57,7 @@ public class DefaultKeyExampleExecuterTest {
         public boolean wasCalledWithParser2 = false;
 
         @Override
-        public List<OrderedExecutableStepDefinition> sortOnMatches(Collection<ParserCombiner> parserCombiners, String keyExampleText) {
+        public List<ComparableExecutableStepDefinition> sortOnMatches(Collection<ParserCombiner> parserCombiners, String keyExampleText) {
             ParserCombiner pc = parserCombiners.iterator().next();
             if(pc.getParsers().get(0).getPlaceholder().equals("placeholder1")){
                 wasCalledWithParser1 = true;
@@ -79,15 +79,15 @@ public class DefaultKeyExampleExecuterTest {
 
 
         @Override
-        public List<OrderedExecutableStepDefinition> sortOnMatches(Collection<ParserCombiner> parserCombiners, String keyExampleText) {
+        public List<ComparableExecutableStepDefinition> sortOnMatches(Collection<ParserCombiner> parserCombiners, String keyExampleText) {
 
 
             ExecutableStepDefinition esd1 = new ExecutableStepDefinitionForObject<String>(s -> setString1(s), "I'm set");
             ExecutableStepDefinition esd2 = new ExecutableStepDefinitionForObject<String>(s -> setString2(s), "I'm set too");
 
 
-            OrderedExecutableStepDefinition oesd1 = new OrderedExecutableStepDefinition(1, esd1);
-            OrderedExecutableStepDefinition oesd2 = new OrderedExecutableStepDefinition(2, esd2);
+            ComparableExecutableStepDefinition oesd1 = new ComparableExecutableStepDefinition(1, esd1);
+            ComparableExecutableStepDefinition oesd2 = new ComparableExecutableStepDefinition(2, esd2);
 
             return Arrays.asList(oesd1, oesd2);
 

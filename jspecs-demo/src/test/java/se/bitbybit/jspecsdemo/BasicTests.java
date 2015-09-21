@@ -10,6 +10,9 @@ import se.bitbybit.jspecs.builders.SearchPatterns;
 import se.bitbybit.jspecs.junitspecific.KeyExample;
 import se.bitbybit.jspecs.junitspecific.SpecificationLogger;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+
 public class BasicTests {
 
     @Rule
@@ -28,24 +31,23 @@ public class BasicTests {
     }
 
 
-
-    /**
-     * The whole test can be defined and run in a single block of code ...
-     */
     @KeyExample(description = "Jöns is programming this and have to fix all the bugs")
     @Test
-    public void blacklistingSenders_I(){
+    public void singleSearchPatternWithTwoBindings(){
 
         ExecutableKeyExample
                 .forKeyExample(logger.getKeyExample())
 
                 .withSearchPatterns(new SearchPatterns()
-                                .addSearchPattern("{programmer} is programming and have to {verb}")
-                                .binding("{programmer}").toStringIn(programmer -> setProgrammer(programmer))
-                                .binding("{verb}").toStringIn(verb -> setVerb(verb))
+                                .addSearchPattern("{programmer} is programming this and have to {verb}")
+                                    .binding("{programmer}").toStringIn(programmer -> setProgrammer(programmer))
+                                    .binding("{verb}").toStringIn(verb -> setVerb(verb))
                 )
 
                 .run(defaultKeyExampleExecuter);
+
+        assertThat(programmer, is("Jöns"));
+        assertThat(verb, is("fix"));
     }
 
 }

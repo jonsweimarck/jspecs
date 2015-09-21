@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class SearchPatterns {
 
-    private Map<PatternContainer, ParserCombiner> map = new HashMap<>();
+    private Map<String, ParserCombiner> map = new HashMap<>();
     private String pattern;
 
     public SearchPatterns() {
@@ -39,11 +39,11 @@ public class SearchPatterns {
 
     private void addToMap(StepDefinitionParser parser) {
         PatternContainer patternContainer = parser.getStringPattern();
-        ParserCombiner pc = this.map.get(patternContainer);
+        ParserCombiner pc = this.map.get(patternContainer.getOriginalPattern());
         if(pc == null){
             pc = new ParserCombiner();
         }
-        this.map.put(patternContainer, pc.add(parser));
+        this.map.put(patternContainer.getOriginalPattern(), pc.add(parser));
     }
 
     public class FunctionBuilder {

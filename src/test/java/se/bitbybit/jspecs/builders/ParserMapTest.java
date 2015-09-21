@@ -1,7 +1,7 @@
 package se.bitbybit.jspecs.builders;
 
 import org.junit.Test;
-import se.bitbybit.jspecs.stepdefinition.OrderedExecutableStepDefinition;
+import se.bitbybit.jspecs.stepdefinition.ComparableExecutableStepDefinition;
 import se.bitbybit.jspecs.stepdefinition.StepDefinition;
 import se.bitbybit.jspecs.stepdefinition.StepDefinitionParserForString;
 
@@ -32,7 +32,7 @@ public class ParserMapTest {
 
         ParserMap pm = new ParserMap(Arrays.asList(stepDefParser1, stepDefParser2));
 
-        List<OrderedExecutableStepDefinition> executableStepDefs= pm.getExecutableStepDefsFor("This is a text with StringNo1 and StringNo2 inside");
+        List<ComparableExecutableStepDefinition> executableStepDefs= null; //= pm.getExecutableStepDefsFor("This is a text with StringNo1 and StringNo2 inside");
 
         assertThat(executableStepDefs, hasSize(2));
 

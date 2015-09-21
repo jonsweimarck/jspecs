@@ -1,11 +1,11 @@
 package se.bitbybit.jspecs.builders;
 
-import se.bitbybit.jspecs.stepdefinition.OrderedExecutableStepDefinition;
 import se.bitbybit.jspecs.stepdefinition.StepDefinitionParser;
 
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ParserMap {
 
@@ -29,37 +29,37 @@ public class ParserMap {
     }
 
 
-    public List<OrderedExecutableStepDefinition> getExecutableStepDefsFor(String keyExampleText) {
-//        combineStepDefinitions();
+//    public List<ComparableExecutableStepDefinition> getExecutableStepDefsFor(String keyExampleText) {
+////        combineStepDefinitions();
+//
+//        return createOrderedExecutableStepDefs(keyExampleText);
+//
+//    }
 
-        return createOrderedExecutableStepDefs(keyExampleText);
-
-    }
-
-    private List<OrderedExecutableStepDefinition> createOrderedExecutableStepDefs(String keyExampleText) {
-
-        List<OrderedExecutableStepDefinition> orderedExecutableStepDefs = new ArrayList<>();
-
-        for (List<StepDefinitionParser> list : map.values()) {
-            for(StepDefinitionParser entry: list) {
-
-                Pattern regExp = Pattern.compile(entry.getStringPattern().getRegexpPattern());
-                Matcher matcher = regExp.matcher(keyExampleText);
-                // check all occurance
-                while (matcher.find()) {
-                    System.out.print("Start index: " + matcher.start());
-                    System.out.print(" End index: " + matcher.end() + " ");
-                    System.out.println(matcher.group());
-
-                    orderedExecutableStepDefs.add(new OrderedExecutableStepDefinition(
-                            matcher.start(),
-                            entry.parse(matcher.group())));
-                }
-            }
-            Collections.sort(orderedExecutableStepDefs);
-        }
-        return orderedExecutableStepDefs;
-    }
+//    private List<ComparableExecutableStepDefinition> createOrderedExecutableStepDefs(String keyExampleText) {
+//
+//        List<ComparableExecutableStepDefinition> orderedExecutableStepDefs = new ArrayList<>();
+//
+//        for (List<StepDefinitionParser> list : map.values()) {
+//            for(StepDefinitionParser entry: list) {
+//
+//                Pattern regExp = Pattern.compile(entry.getStringPattern().getRegexpPatternWithGroupName());
+//                Matcher matcher = regExp.matcher(keyExampleText);
+//                // check all occurance
+//                while (matcher.find()) {
+//                    System.out.print("Start index: " + matcher.start());
+//                    System.out.print(" End index: " + matcher.end() + " ");
+//                    System.out.println(matcher.group());
+//
+//                    orderedExecutableStepDefs.add(new ComparableExecutableStepDefinition(
+//                            matcher.start(),
+//                            entry.parse(matcher.group())));
+//                }
+//            }
+//            Collections.sort(orderedExecutableStepDefs);
+//        }
+//        return orderedExecutableStepDefs;
+//    }
 
 //    private void combineStepDefinitions() {
 //        for(Map.Entry<String, List<StepDefinitionParser>> entry : this.map.entrySet()){
