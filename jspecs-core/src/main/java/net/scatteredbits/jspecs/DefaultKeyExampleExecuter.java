@@ -9,7 +9,6 @@ import java.util.List;
 public class DefaultKeyExampleExecuter implements KeyExampleExecuter {
 
     private ExecutableStepDefinitionSorter executableStepDefinitionSorter;
-//    private Predicate<Boolean> expectations;
 
     public DefaultKeyExampleExecuter(ExecutableStepDefinitionSorter executableStepDefinitionSorter){
         this.executableStepDefinitionSorter = executableStepDefinitionSorter;
@@ -22,12 +21,5 @@ public class DefaultKeyExampleExecuter implements KeyExampleExecuter {
         for(ComparableExecutableStepDefinition oesd : sorted){
             oesd.execute();
         }
-
-//        expectations.test()
     }
-//
-//    public KeyExampleExecuter withExpectations(Predicate<Boolean> expectations) {
-//        this.expectations = expectations;
-//        return this;
-//    }
 }

@@ -61,7 +61,7 @@ public void callingSizeOnANonEmptyList(){
                         .binding("{list}", asStringList)
                         .to(new OneArgMethod<List<String>>(cut::addAll))
             ).add(
-                new SearchPattern("method size on it, we will get the result {integer}")
+                new SearchPattern("we will get the result {integer}")
                         .binding("{integer}", asInteger)
                         .to(new OneArgMethod<Integer>(i -> assertThat(cut.size(), is(i))))
             );
@@ -86,12 +86,12 @@ This snippet can be read as
 
 In the same manner, the next snippet:
 ```
-new SearchPattern("method size on it, we will get the result {integer}")
+new SearchPattern("we will get the result {integer}")
         .binding("{integer}", asInteger)
         .to(new OneArgMethod<Integer>(i -> assertThat(cut.size(), is(i))))
 ```
 means
-> Pattern match 'method size on it, we will get the result' and pick the what's coming after as an Integer.
+> Pattern match 'we will get the result' and pick the what's coming after as an Integer.
 > Use the integer in a Hamcrest assertion that checks the size of the list"
 
 

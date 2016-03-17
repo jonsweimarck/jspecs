@@ -57,7 +57,6 @@ public class SpecificationLogger extends TestWatcher implements SpecificationSup
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 @Override
                 public void run() {
-
                     logResults();
                 }
             });
@@ -93,6 +92,9 @@ public class SpecificationLogger extends TestWatcher implements SpecificationSup
     }
 
     public void logResults(){
+
+        //JspecResult result = new JspecResult()
+
         logger.info("****************************************************************");
         logger.info(INSTANCE.specName);
         logger.info(INSTANCE.specificationDescription);

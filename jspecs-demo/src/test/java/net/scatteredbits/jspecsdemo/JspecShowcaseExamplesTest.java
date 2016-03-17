@@ -6,7 +6,9 @@ import net.scatteredbits.jspecs.ExecutableStepDefinitionSorter;
 import net.scatteredbits.jspecs.builders.*;
 import net.scatteredbits.jspecs.junitspecific.KeyExample;
 import net.scatteredbits.jspecs.junitspecific.Specification;
+import net.scatteredbits.jspecs.junitspecific.SpecificationCounter;
 import net.scatteredbits.jspecs.junitspecific.SpecificationLogger;
+import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -32,6 +34,16 @@ public class JspecShowcaseExamplesTest {
 
     @Rule
     public SpecificationLogger logger = new SpecificationLogger();
+
+    @AfterClass
+    public void beforeClass(){
+        SpecificationCounter.INSTANCE.inc();
+    }
+
+    @AfterClass
+    public void afterClass(){
+        SpecificationCounter.INSTANCE.dec();
+    }
 
     private DefaultKeyExampleExecuter defaultKeyExampleExecuter = new DefaultKeyExampleExecuter(new ExecutableStepDefinitionSorter());
     private String string1;
